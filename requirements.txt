@@ -1,4 +1,4 @@
 aiohttp==3.13.3
 SQLAlchemy==2.0.44
 aiosqlite==0.21.0
-passlib[bcrypt]==1.7.4
+bcrypt==5.0.0
