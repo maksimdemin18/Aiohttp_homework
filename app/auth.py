@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from passlib.hash import bcrypt
+import bcrypt
 from sqlalchemy import select
 
 from app.models import User
@@ -31,11 +31,15 @@ class BadRequestError(Exception):
 
 
 def hash_password(password: str) -> str:
-    return bcrypt.hash(password)
+    password_bytes = password.encode("utf-8")
+    hashed = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
+    return hashed.decode("utf-8")
 
 
 def verify_password(password: str, password_hash: str) -> bool:
-    return bcrypt.verify(password, password_hash)
+    password_bytes = password.encode("utf-8")
+    password_hash_bytes = password_hash.encode("utf-8")
+    return bcrypt.checkpw(password_bytes, password_hash_bytes)
 
 
 def generate_token() -> str:
